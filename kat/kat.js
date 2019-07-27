@@ -1,20 +1,20 @@
 
-SOUNDS = {
-	'crickets' : 'https://drive.google.com/open?id=1UmEgZfH7tQedPCutRfnDsc0wZ5_VrPGu',
-	'piano' : 'https://drive.google.com/open?id=1UmEgZfH7tQedPCutRfnDsc0wZ5_VrPGu',
-	'waves' : 'https://drive.google.com/open?id=1UmEgZfH7tQedPCutRfnDsc0wZ5_VrPGu',
-	'bells' : 'https://drive.google.com/open?id=1UmEgZfH7tQedPCutRfnDsc0wZ5_VrPGu',
-	'birdsong' : 'https://drive.google.com/open?id=1UmEgZfH7tQedPCutRfnDsc0wZ5_VrPGu',
-	'bubbles' : 'https://drive.google.com/open?id=1UmEgZfH7tQedPCutRfnDsc0wZ5_VrPGu',
-	'chant' : 'https://drive.google.com/open?id=1UmEgZfH7tQedPCutRfnDsc0wZ5_VrPGu',
-	'childplay' : 'https://drive.google.com/open?id=1UmEgZfH7tQedPCutRfnDsc0wZ5_VrPGu',
-	'drone' : 'https://drive.google.com/open?id=1UmEgZfH7tQedPCutRfnDsc0wZ5_VrPGu',
-	'guitar' : 'https://drive.google.com/open?id=1UmEgZfH7tQedPCutRfnDsc0wZ5_VrPGu',
-	'talkings' : 'https://drive.google.com/open?id=1UmEgZfH7tQedPCutRfnDsc0wZ5_VrPGu',
-	'violin' : 'https://drive.google.com/open?id=1UmEgZfH7tQedPCutRfnDsc0wZ5_VrPGu', // TODO replace
-	'boxing' : 'https://drive.google.com/open?id=1UmEgZfH7tQedPCutRfnDsc0wZ5_VrPGu',
-	'clock' : 'https://drive.google.com/open?id=1UmEgZfH7tQedPCutRfnDsc0wZ5_VrPGu',
-};
+SOUNDS = [
+	[ 'crickets', 'bubbles.mp3' ],
+	[ 'piano' , 'bubbles.mp3' ],
+	[ 'waves' , 'bubbles.mp3' ],
+	[ 'bells' , 'bubbles.mp3' ],
+	[ 'birdsong' , 'bubbles.mp3' ],
+	[ 'bubbles' , 'bubbles.mp3' ],
+	[ 'chant' , 'bubbles.mp3' ],
+	[ 'childplay' , 'bubbles.mp3' ],
+	[ 'drone' , 'bubbles.mp3' ],
+	[ 'guitar' , 'bubbles.mp3' ],
+	[ 'talkings' , 'bubbles.mp3'] ,
+	[ 'violin' , 'bubbles.mp3' ], // TODO replace
+	[ 'boxing' , 'bubbles.mp3' ],
+	[ 'clock' , 'bubbles.mp3' ],
+];
 
 
 var g_is_running = false;
@@ -75,7 +75,7 @@ function change_attention_focus() {
 			$("#focus_entry").fadeOut(2000);
 		}
 
-		$("#focus_entry").html('Concentrate on ' + random_focus);
+		$("#focus_entry").html('Concentrate on ' + SOUNDS[random_focus][0]);
 		$("#focus_entry").fadeIn(2000);
 
 		if (g_settings['is_narrator']) {
@@ -94,7 +94,7 @@ function play_this(song) {
 
 	console.log("Playing " + song);
 
-	var audio_obj = new Audio(song + '.mp3');
+	var audio_obj = new Audio(song);
 
 	audio_obj.volume = 0.3;
 	audio_obj.play();
@@ -126,21 +126,19 @@ function start_AT() {
 
 		random_sound_pos = Math.floor(Math.random() * SOUNDS.length);
 
-		random_sound = SOUNDS[random_sound_pos];
+		if (!g_settings['currently_playing'].includes(random_sound_pos)) {
 
-		if (!g_settings['currently_playing'].includes(random_sound)) {
-
-			g_settings['currently_playing'].push(random_sound);
+			g_settings['currently_playing'].push(random_sound_pos);
 
 			i += 1;
 
-			console.log("Selected " + random_sound);
+			console.log("Selected " + SOUNDS[random_sound_pos][0]);
 		}
 	}
 
 	for (i = 0; i < g_settings['sounds_len']; ++i) {
 	
-		setTimeout(play_this, 0, g_settings['currently_playing'][i]);
+		setTimeout(play_this, 0, SOUNDS[g_settings['currently_playing'][i]][1]);
 	
 	}
 
