@@ -1,19 +1,19 @@
 
 SOUNDS = [
-	[ 'crickets', 'songs/crickets.mp3' ],
-	[ 'piano' , 'songs/piano.mp3' ],
-	[ 'waves' , 'songs/waves.mp3' ],
-	[ 'bells' , 'songs/bells.mp3' ],
-	[ 'birdsong' , 'songs/birdsong.mp3' ],
-	[ 'bubbles' , 'songs/bubbles.mp3' ],
-	[ 'chant' , 'songs/chant.mp3' ],
-	[ 'childplay' , 'songs/childplay.mp3' ],
-	[ 'drone' , 'songs/drone.mp3' ],
-	[ 'guitar' , 'songs/guitar.mp3' ],
-	[ 'talkings' , 'songs/talkings.mp3'] ,
-	[ 'violin' , 'songs/violin.mp3' ], // TODO replace
-	[ 'boxing' , 'songs/boxing.mp3' ],
-	[ 'clock' , 'songs/clock.mp3' ],
+	[ 'crickets', 'songs/crickets.mp3', 0.5 ],
+	[ 'piano' , 'songs/piano.mp3', 0.5 ],
+	[ 'waves' , 'songs/waves.mp3', 0.5 ],
+	[ 'bells' , 'songs/bells.mp3', 0.4 ],
+	[ 'birdsong' , 'songs/birdsong.mp3', 0.5 ],
+	[ 'bubbles' , 'songs/bubbles.mp3', 0.4 ],
+	[ 'chant' , 'songs/chant.mp3', 0.5 ],
+	[ 'childsplay' , 'songs/childplay.mp3', 0.4 ],
+	[ 'drone' , 'songs/drone.mp3', 0.6 ],
+	[ 'guitar' , 'songs/guitar.mp3', 0.5 ],
+	[ 'talkings' , 'songs/talkings.mp3', 0.5] ,
+	[ 'violin' , 'songs/violin.mp3', 0.5 ], // TODO replace
+	[ 'boxing' , 'songs/boxing.mp3', 0.5 ],
+	[ 'clock' , 'songs/clock.mp3', 0.7 ],
 ];
 
 
@@ -27,6 +27,21 @@ var g_settings = {
 	'audio_objects' : [ ],
 	'focus_interval_object' : null,
 	'current_focus' : null,
+	'current_progress' : 0,
+	'progress_interval_object' : null,
+}
+
+
+function progress_bar() {
+
+	if (g_is_running) {
+		results = (g_settings['current_progress'] * 100 / (g_settings['minutes_len'] * 60));
+		$("#kat-progress-bar").css('width', results.toString() + '%');
+		g_settings['current_progress'] += 1;
+	} else {
+		console.log("Stopping progress bar");
+		clearInterval(g_settings['progress_interval_object']);
+	}
 }
 
 
@@ -72,17 +87,17 @@ function change_attention_focus() {
 	if (random_focus != g_settings['current_focus']) {
 
 		if (g_settings['current_focus']) {
-			$("#focus_entry").fadeOut(2000);
+			$("#focus_entry").fadeOut();
 		}
 
-		$("#focus_entry").html('Concentrate on ' + SOUNDS[random_focus][0]);
-		$("#focus_entry").fadeIn(2000);
+		$("#focus_entry").html('Concentrate on the ' + SOUNDS[random_focus][0]);
+		$("#focus_entry").fadeIn();
 
 		if (g_settings['is_narrator']) {
 
-			say_this('Concentrate on');
+			say_this('Concentrate on the');
 
-			say_this(random_focus);
+			say_this(SOUNDS[random_focus][0]);
 		}
 
 		g_settings['current_focus'] = random_focus;
@@ -90,18 +105,23 @@ function change_attention_focus() {
 }
 
 
-function play_this(song) {
+function play_this(sound_index) {
 
-	console.log("Playing " + song);
+	song_name = SOUNDS[sound_index][0]; 
+	song_url = SOUNDS[sound_index][1];
+	song_volume_factor = SOUNDS[sound_index][2];
 
-	var audio_obj = new Audio(song);
+	console.log("Playing " + song_name);
 
-	audio_obj.volume = 0.3;
+	var audio_obj = new Audio(song_url);
+
+	audio_obj.loop = true;
+	audio_obj.volume = song_volume_factor;
 	audio_obj.play();
 
 	g_settings['audio_objects'].push(audio_obj);
 
-	console.log("Done with " + song);
+	console.log("Done with " + song_name);
 }
 
 
@@ -119,6 +139,8 @@ function start_AT() {
 	g_settings['audio_objects'] = [ ];
 	g_settings['current_focus'] = null;
 	g_settings['focus_interval_object'] = null;
+	g_settings['current_progress'] = 0;
+	g_settings['progress_interval_object'] = null;
 
 	i = 0;
 
@@ -137,14 +159,18 @@ function start_AT() {
 	}
 
 	for (i = 0; i < g_settings['sounds_len']; ++i) {
-	
-		setTimeout(play_this, 0, SOUNDS[g_settings['currently_playing'][i]][1]);
-	
+		setTimeout(play_this, 0, g_settings['currently_playing'][i]);
 	}
 
-	g_settings['focus_interval_object'] = setInterval(change_attention_focus, 15000);
+	g_settings['focus_interval_object'] = setInterval(change_attention_focus, 18000);
 
 	setTimeout(stop_AT, g_settings['minutes_len'] * 1000 * 60);
+
+	g_settings['progress_interval_object'] = setInterval(progress_bar, 1000);
+
+	if (g_settings['is_narrator']) {
+		say_this('starting the session');
+	}
 }
 
 
@@ -158,15 +184,20 @@ function stop_AT() {
 
 	for (i = 0; i < g_settings['audio_objects'].length; ++i) {
 
-		console.log("Stopping " + g_settings['currently_playing'][i]);
+		console.log("Stopping " + SOUNDS[g_settings['currently_playing'][i]][0]);
 
 		g_settings['audio_objects'][i].pause();
-
 	}
 
 	clearInterval(g_settings['focus_interval_object']);
 
-	$("#focus_entry").fadeOut(2000);
+	$("#focus_entry").fadeOut();
+	
+	$("#kat-progress-bar").css('width', '0%');
+
+	if (g_settings['is_narrator']) {
+		say_this('This concludes the session');
+	}
 
 	g_is_running = false;
 }
