@@ -1,20 +1,20 @@
 
-SOUNDS = [
-	'crickets',
-	'piano',
-	'waves',
-	'bells',
-	'birdsong',
-	'bubbles',
-	'chant',
-	'childplay',
-	'drone',
-	'guitar',
-	'talkings',
-	'violin', // TODO replace
-	'boxing',
-	'clock',
-];
+SOUNDS = {
+	'crickets' : 'https://drive.google.com/open?id=1UmEgZfH7tQedPCutRfnDsc0wZ5_VrPGu',
+	'piano' : 'https://drive.google.com/open?id=1UmEgZfH7tQedPCutRfnDsc0wZ5_VrPGu',
+	'waves' : 'https://drive.google.com/open?id=1UmEgZfH7tQedPCutRfnDsc0wZ5_VrPGu',
+	'bells' : 'https://drive.google.com/open?id=1UmEgZfH7tQedPCutRfnDsc0wZ5_VrPGu',
+	'birdsong' : 'https://drive.google.com/open?id=1UmEgZfH7tQedPCutRfnDsc0wZ5_VrPGu',
+	'bubbles' : 'https://drive.google.com/open?id=1UmEgZfH7tQedPCutRfnDsc0wZ5_VrPGu',
+	'chant' : 'https://drive.google.com/open?id=1UmEgZfH7tQedPCutRfnDsc0wZ5_VrPGu',
+	'childplay' : 'https://drive.google.com/open?id=1UmEgZfH7tQedPCutRfnDsc0wZ5_VrPGu',
+	'drone' : 'https://drive.google.com/open?id=1UmEgZfH7tQedPCutRfnDsc0wZ5_VrPGu',
+	'guitar' : 'https://drive.google.com/open?id=1UmEgZfH7tQedPCutRfnDsc0wZ5_VrPGu',
+	'talkings' : 'https://drive.google.com/open?id=1UmEgZfH7tQedPCutRfnDsc0wZ5_VrPGu',
+	'violin' : 'https://drive.google.com/open?id=1UmEgZfH7tQedPCutRfnDsc0wZ5_VrPGu', // TODO replace
+	'boxing' : 'https://drive.google.com/open?id=1UmEgZfH7tQedPCutRfnDsc0wZ5_VrPGu',
+	'clock' : 'https://drive.google.com/open?id=1UmEgZfH7tQedPCutRfnDsc0wZ5_VrPGu',
+};
 
 
 var g_is_running = false;
