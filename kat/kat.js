@@ -1,12 +1,12 @@
 
 SOUNDS = [
-	[ 'crickets', 'songs/crickets.mp3', 0.6 ],
+	[ 'crickets', 'songs/crickets.mp3', 0.7 ],
 	[ 'piano' , 'songs/piano.mp3', 0.5 ],
 	[ 'waves' , 'songs/waves.mp3', 0.5 ],
-	[ 'bells' , 'songs/bells.mp3', 0.4 ],
+	[ 'bells' , 'songs/bells.mp3', 0.3 ],
 	[ 'birdsong' , 'songs/birdsong.mp3', 0.5 ],
 	[ 'bubbles' , 'songs/bubbles.mp3', 0.4 ],
-	[ 'chant' , 'songs/chant.mp3', 0.5 ],
+	[ 'chant' , 'songs/chant.mp3', 0.4 ],
 	[ 'childsplay' , 'songs/childplay.mp3', 0.4 ],
 	[ 'drone' , 'songs/drone.mp3', 0.6 ],
 	[ 'guitar' , 'songs/guitar.mp3', 0.5 ],
@@ -14,7 +14,7 @@ SOUNDS = [
 	[ 'violin' , 'songs/violin.mp3', 0.5 ],
 	[ 'boxing' , 'songs/boxing.mp3', 0.7 ],
 	[ 'clock' , 'songs/clock.mp3', 0.7 ],
-	[ 'floor cracking' , 'songs/floor.mp3', 0.6 ],
+	[ 'floor cracking' , 'songs/floor.mp3', 0.9 ],
 	[ 'typing' , 'songs/typing.mp3', 0.9 ],
 ];
 
@@ -233,4 +233,5 @@ $("#stop-training-button").click(function() {
 
 $(document).ready(function() { 
 	console.log("Ready");
+	$("#stop-training-button").prop('disabled', true);
 });
