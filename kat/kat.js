@@ -1,6 +1,6 @@
 
 SOUNDS = [
-	[ 'crickets', 'songs/crickets.mp3', 0.5 ],
+	[ 'crickets', 'songs/crickets.mp3', 0.6 ],
 	[ 'piano' , 'songs/piano.mp3', 0.5 ],
 	[ 'waves' , 'songs/waves.mp3', 0.5 ],
 	[ 'bells' , 'songs/bells.mp3', 0.4 ],
@@ -14,6 +14,8 @@ SOUNDS = [
 	[ 'violin' , 'songs/violin.mp3', 0.5 ], // TODO replace
 	[ 'boxing' , 'songs/boxing.mp3', 0.5 ],
 	[ 'clock' , 'songs/clock.mp3', 0.7 ],
+	[ 'floor cracking' , 'songs/floor.mp3', 0.5 ],
+	[ 'typing' , 'songs/typing.mp3', 0.5 ],
 ];
 
 
