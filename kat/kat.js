@@ -1,19 +1,19 @@
 
 SOUNDS = [
-	[ 'crickets', 'bubbles.mp3' ],
-	[ 'piano' , 'bubbles.mp3' ],
-	[ 'waves' , 'bubbles.mp3' ],
-	[ 'bells' , 'bubbles.mp3' ],
-	[ 'birdsong' , 'bubbles.mp3' ],
-	[ 'bubbles' , 'bubbles.mp3' ],
-	[ 'chant' , 'bubbles.mp3' ],
-	[ 'childplay' , 'bubbles.mp3' ],
-	[ 'drone' , 'bubbles.mp3' ],
-	[ 'guitar' , 'bubbles.mp3' ],
-	[ 'talkings' , 'bubbles.mp3'] ,
-	[ 'violin' , 'bubbles.mp3' ], // TODO replace
-	[ 'boxing' , 'bubbles.mp3' ],
-	[ 'clock' , 'bubbles.mp3' ],
+	[ 'crickets', 'songs/crickets.mp3' ],
+	[ 'piano' , 'songs/piano.mp3' ],
+	[ 'waves' , 'songs/waves.mp3' ],
+	[ 'bells' , 'songs/bells.mp3' ],
+	[ 'birdsong' , 'songs/birdsong.mp3' ],
+	[ 'bubbles' , 'songs/bubbles.mp3' ],
+	[ 'chant' , 'songs/chant.mp3' ],
+	[ 'childplay' , 'songs/childplay.mp3' ],
+	[ 'drone' , 'songs/drone.mp3' ],
+	[ 'guitar' , 'songs/guitar.mp3' ],
+	[ 'talkings' , 'songs/talkings.mp3'] ,
+	[ 'violin' , 'songs/violin.mp3' ], // TODO replace
+	[ 'boxing' , 'songs/boxing.mp3' ],
+	[ 'clock' , 'songs/clock.mp3' ],
 ];
 
 
