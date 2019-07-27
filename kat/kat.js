@@ -11,11 +11,11 @@ SOUNDS = [
 	[ 'drone' , 'songs/drone.mp3', 0.6 ],
 	[ 'guitar' , 'songs/guitar.mp3', 0.5 ],
 	[ 'talkings' , 'songs/talkings.mp3', 0.5] ,
-	[ 'violin' , 'songs/violin.mp3', 0.5 ], // TODO replace
-	[ 'boxing' , 'songs/boxing.mp3', 0.5 ],
+	[ 'violin' , 'songs/violin.mp3', 0.5 ],
+	[ 'boxing' , 'songs/boxing.mp3', 0.7 ],
 	[ 'clock' , 'songs/clock.mp3', 0.7 ],
-	[ 'floor cracking' , 'songs/floor.mp3', 0.5 ],
-	[ 'typing' , 'songs/typing.mp3', 0.5 ],
+	[ 'floor cracking' , 'songs/floor.mp3', 0.6 ],
+	[ 'typing' , 'songs/typing.mp3', 0.9 ],
 ];
 
 
@@ -164,7 +164,7 @@ function start_AT() {
 		setTimeout(play_this, 0, g_settings['currently_playing'][i]);
 	}
 
-	g_settings['focus_interval_object'] = setInterval(change_attention_focus, 18000);
+	g_settings['focus_interval_object'] = setInterval(change_attention_focus, 21078);
 
 	setTimeout(stop_AT, g_settings['minutes_len'] * 1000 * 60);
 
@@ -173,6 +173,11 @@ function start_AT() {
 	if (g_settings['is_narrator']) {
 		say_this('starting the session');
 	}
+
+	change_attention_focus();
+
+	$("#show-settings-button").prop('disabled', true);
+	$("#stop-training-button").prop('disabled', false);
 }
 
 
@@ -193,13 +198,17 @@ function stop_AT() {
 
 	clearInterval(g_settings['focus_interval_object']);
 
-	$("#focus_entry").fadeOut();
-	
+	$("#focus_entry").html('&nbsp;');
+
 	$("#kat-progress-bar").css('width', '0%');
 
 	if (g_settings['is_narrator']) {
 		say_this('This concludes the session');
 	}
+
+	$("#show-settings-button").prop('disabled', false);
+
+	$("#stop-training-button").prop('disabled', true);
 
 	g_is_running = false;
 }
@@ -214,18 +223,11 @@ $("#settings-start-button").click(function() {
 	$("#settings-modal").modal('hide');
 
 	start_AT();
-
-	$("#show-settings-button").prop('disabled', true);
-	$("#stop-training-button").prop('disabled', false);
 });
 
 
 $("#stop-training-button").click(function() {
-
 	stop_AT();
-
-	$("#show-settings-button").prop('disabled', false);
-	$("#stop-training-button").prop('disabled', true);
 });
 
 
