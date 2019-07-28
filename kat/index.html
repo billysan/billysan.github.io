@@ -6,6 +6,8 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+	<script src="https://kit.fontawesome.com/aa5d0dde27.js"></script>
+
 	<!-- Bootstrap CSS -->
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
@@ -21,8 +23,8 @@
 		</div>
 		<div class="row">
 			<div class="col text-center">
-				<button id="show-settings-button" type="button" class="btn btn-primary" data-toggle="modal" data-target="#settings-modal">start training</button>
-				<button id="stop-training-button" type="button" class="btn btn-primary">stop session</button>
+				<button id="show-settings-button" type="button" class="btn btn-lg btn-primary" data-toggle="modal" data-target="#settings-modal"><i class="fas fa-play"></i></button>
+				<button id="stop-training-button" type="button" class="btn btn-lg btn-primary"><i class="fas fa-pause"></i></button>
 			</div>
 		</div>
 
@@ -53,7 +55,7 @@
 				<div class="modal-body">
 					<div class="row">
 						<div class="col-lg-5">
-							<p>how many sounds?</p>
+							<p><i class="fas fa-music"></i>&nbsp;&nbsp;how many sounds?</p>
 						</div>
 						<div class="col-lg-7">
 							<div id="sounds-len-btn-group" class="btn-group btn-group-toggle" data-toggle="buttons">
@@ -71,7 +73,7 @@
 					</div>
 					<div class="row">
 						<div class="col-lg-5">
-							<p>for how long (mins)</p>
+							<p><i class="fas fa-clock"></i>&nbsp;&nbsp;for how long (mins)</p>
 						</div>
 						<div class="col-lg-7">
 							<div id="minutes-len-btn-group" class="btn-group btn-group-toggle" data-toggle="buttons">
@@ -90,7 +92,7 @@
 
 					<div class="row">
 						<div class="col-lg-5">
-							<p>narrate?</p>
+							<p><i class="fas fa-assistive-listening-systems"></i>&nbsp;&nbsp;narrate?</p>
 						</div>
 						<div class="col-lg-7">
 							<div class="input-group mb-3">
@@ -106,8 +108,8 @@
 				</div>
 				
 				<div class="modal-footer">
-					<button id="settings-start-button" type="button" class="btn btn-primary">let's start</button>
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">nm</button>
+					<button id="settings-start-button" type="button" class="btn btn-primary"><i class="fas fa-check"></i>&nbsp;let's start</button>
+					<button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-times"></i>&nbsp;cancel</button>
 				</div>
 			</div>
 		</div>
