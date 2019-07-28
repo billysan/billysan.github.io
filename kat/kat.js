@@ -1,21 +1,24 @@
 
 SOUNDS = [
-	[ 'crickets', 'songs/crickets.mp3', 0.7 ],
+	[ 'crickets', 'songs/crickets.mp3', 0.8 ],
 	[ 'piano' , 'songs/piano.mp3', 0.5 ],
 	[ 'waves' , 'songs/waves.mp3', 0.5 ],
 	[ 'bells' , 'songs/bells.mp3', 0.3 ],
 	[ 'birdsong' , 'songs/birdsong.mp3', 0.5 ],
 	[ 'bubbles' , 'songs/bubbles.mp3', 0.4 ],
 	[ 'chant' , 'songs/chant.mp3', 0.4 ],
-	[ 'childsplay' , 'songs/childplay.mp3', 0.4 ],
+	[ 'childplay' , 'songs/childplay.mp3', 0.4 ],
 	[ 'drone' , 'songs/drone.mp3', 0.6 ],
 	[ 'guitar' , 'songs/guitar.mp3', 0.5 ],
 	[ 'talkings' , 'songs/talkings.mp3', 0.5] ,
 	[ 'violin' , 'songs/violin.mp3', 0.5 ],
 	[ 'boxing' , 'songs/boxing.mp3', 0.7 ],
-	[ 'clock' , 'songs/clock.mp3', 0.7 ],
+	[ 'clock' , 'songs/clock.mp3', 0.9 ],
 	[ 'floor cracking' , 'songs/floor.mp3', 0.9 ],
 	[ 'typing' , 'songs/typing.mp3', 0.9 ],
+	[ 'sheep' , 'songs/sheep.mp3', 0.4 ],
+	[ 'traffic' , 'songs/traffic.mp3', 0.5 ],
+	[ 'harp' , 'songs/harp.mp3', 0.7 ],
 ];
 
 
@@ -31,6 +34,7 @@ var g_settings = {
 	'current_focus' : null,
 	'current_progress' : 0,
 	'progress_interval_object' : null,
+	'stop_AT_timeout_object' : null,
 }
 
 
@@ -143,6 +147,7 @@ function start_AT() {
 	g_settings['focus_interval_object'] = null;
 	g_settings['current_progress'] = 0;
 	g_settings['progress_interval_object'] = null;
+	g_settings['stop_AT_timeout_object'] = null;
 
 	i = 0;
 
@@ -166,7 +171,7 @@ function start_AT() {
 
 	g_settings['focus_interval_object'] = setInterval(change_attention_focus, 21078);
 
-	setTimeout(stop_AT, g_settings['minutes_len'] * 1000 * 60);
+	g_settings['stop_AT_timeout_object'] = setTimeout(stop_AT, g_settings['minutes_len'] * 1000 * 60);
 
 	g_settings['progress_interval_object'] = setInterval(progress_bar, 1000);
 
@@ -189,6 +194,10 @@ function stop_AT() {
 
 	console.log("Stopping AT...");
 
+	if (g_settings['stop_AT_timeout_object']) {
+		clearTimeout(g_settings['stop_AT_timeout_object']);
+	}
+
 	for (i = 0; i < g_settings['audio_objects'].length; ++i) {
 
 		console.log("Stopping " + SOUNDS[g_settings['currently_playing'][i]][0]);
@@ -196,7 +205,9 @@ function stop_AT() {
 		g_settings['audio_objects'][i].pause();
 	}
 
-	clearInterval(g_settings['focus_interval_object']);
+	if (g_settings['focus_interval_object']) {
+		clearInterval(g_settings['focus_interval_object']);
+	}
 
 	$("#focus_entry").html('&nbsp;');
 
@@ -232,6 +243,6 @@ $("#stop-training-button").click(function() {
 
 
 $(document).ready(function() { 
-	console.log("Ready");
 	$("#stop-training-button").prop('disabled', true);
+	console.log("Ready");
 });
