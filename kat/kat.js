@@ -1,24 +1,24 @@
 
 SOUNDS = [
-	[ 'crickets', 'songs/crickets.mp3', 0.8 ],
-	[ 'piano' , 'songs/piano.mp3', 0.5 ],
-	[ 'waves' , 'songs/waves.mp3', 0.5 ],
-	[ 'bells' , 'songs/bells.mp3', 0.3 ],
-	[ 'birdsong' , 'songs/birdsong.mp3', 0.5 ],
-	[ 'bubbles' , 'songs/bubbles.mp3', 0.4 ],
-	[ 'chant' , 'songs/chant.mp3', 0.4 ],
-	[ 'childplay' , 'songs/childplay.mp3', 0.4 ],
-	[ 'drone' , 'songs/drone.mp3', 0.6 ],
-	[ 'guitar' , 'songs/guitar.mp3', 0.5 ],
-	[ 'talkings' , 'songs/talkings.mp3', 0.5] ,
-	[ 'violin' , 'songs/violin.mp3', 0.5 ],
-	[ 'boxing' , 'songs/boxing.mp3', 0.7 ],
-	[ 'clock' , 'songs/clock.mp3', 0.9 ],
-	[ 'floor cracking' , 'songs/floor.mp3', 0.9 ],
-	[ 'typing' , 'songs/typing.mp3', 0.9 ],
-	[ 'sheep' , 'songs/sheep.mp3', 0.4 ],
-	[ 'traffic' , 'songs/traffic.mp3', 0.5 ],
-	[ 'harp' , 'songs/harp.mp3', 0.7 ],
+	[ 'crickets', 'songs/crickets.mp3', 'tts/crickets.mp3', 0.8 ],
+	[ 'piano' , 'songs/piano.mp3', 'tts/piano.mp3', 0.5 ],
+	[ 'waves' , 'songs/waves.mp3', 'tts/waves.mp3', 0.5 ],
+	[ 'bells' , 'songs/bells.mp3', 'tts/bells.mp3', 0.3 ],
+	[ 'birdsong' , 'songs/birdsong.mp3', 'tts/birdsong.mp3', 0.5 ],
+	[ 'bubbles' , 'songs/bubbles.mp3', 'tts/bubbles.mp3', 0.4 ],
+	[ 'chant' , 'songs/chant.mp3', 'tts/chant.mp3', 0.4 ],
+	[ 'childplay' , 'songs/childplay.mp3', 'tts/childplay.mp3', 0.4 ],
+	[ 'drone' , 'songs/drone.mp3', 'tts/drone.mp3', 0.6 ],
+	[ 'guitar' , 'songs/guitar.mp3', 'tts/guitar.mp3', 0.5 ],
+	[ 'talkings' , 'songs/talkings.mp3', 'tts/talkings.mp3', 0.5] ,
+	[ 'violin' , 'songs/violin.mp3', 'tts/violin.mp3', 0.5 ],
+	[ 'boxing' , 'songs/boxing.mp3', 'tts/boxing.mp3', 0.7 ],
+	[ 'clock' , 'songs/clock.mp3', 'tts/clock.mp3', 0.9 ],
+	[ 'floor cracking' , 'songs/floor.mp3', 'tts/floor.mp3', 0.9 ],
+	[ 'typing' , 'songs/typing.mp3', 'tts/typing.mp3', 0.9 ],
+	[ 'sheep' , 'songs/sheep.mp3', 'tts/sheep.mp3', 0.4 ],
+	[ 'traffic' , 'songs/traffic.mp3', 'tts/traffic.mp3', 0.5 ],
+	[ 'harp' , 'songs/harp.mp3', 'tts/harp.mp3', 0.7 ],
 ];
 
 
@@ -30,11 +30,16 @@ var g_settings = {
 	'is_narrator' : false,
 	'currently_playing' : [ ],
 	'audio_objects' : [ ],
+	'tts_objects' : { },
 	'focus_interval_object' : null,
 	'current_focus' : null,
 	'current_progress' : 0,
 	'progress_interval_object' : null,
 	'stop_AT_timeout_object' : null,
+	'narration_audio_objects' : {
+		'start' : new Audio("tts/start.mp3"),
+		'end' : new Audio("tts/end.mp3"),
+	},
 }
 
 
@@ -100,10 +105,7 @@ function change_attention_focus() {
 		$("#focus_entry").fadeIn();
 
 		if (g_settings['is_narrator']) {
-
-			say_this('Concentrate on the');
-
-			say_this(SOUNDS[random_focus][0]);
+			g_settings['tts_objects'][random_focus.toString()].play();
 		}
 
 		g_settings['current_focus'] = random_focus;
@@ -115,7 +117,8 @@ function play_this(sound_index) {
 
 	song_name = SOUNDS[sound_index][0]; 
 	song_url = SOUNDS[sound_index][1];
-	song_volume_factor = SOUNDS[sound_index][2];
+	song_tts_url = SOUNDS[sound_index][2];
+	song_volume_factor = SOUNDS[sound_index][3];
 
 	console.log("Playing " + song_name);
 
@@ -125,7 +128,11 @@ function play_this(sound_index) {
 	audio_obj.volume = song_volume_factor;
 	audio_obj.play();
 
+	console.log("Downloading " + song_tts_url);
+	var tts_obj = new Audio(song_tts_url);
+
 	g_settings['audio_objects'].push(audio_obj);
+	g_settings['tts_objects'][sound_index] = tts_obj;
 
 	console.log("Done with " + song_name);
 }
@@ -143,6 +150,7 @@ function start_AT() {
 	
 	g_settings['currently_playing'] = [ ];
 	g_settings['audio_objects'] = [ ];
+	g_settings['tts_objects'] = { };
 	g_settings['current_focus'] = null;
 	g_settings['focus_interval_object'] = null;
 	g_settings['current_progress'] = 0;
@@ -176,10 +184,10 @@ function start_AT() {
 	g_settings['progress_interval_object'] = setInterval(progress_bar, 1000);
 
 	if (g_settings['is_narrator']) {
-		say_this('starting the session');
+		g_settings['narration_audio_objects']['start'].play();
 	}
 
-	change_attention_focus();
+	setTimeout(change_attention_focus, 3000);
 
 	$("#show-settings-button").prop('disabled', true);
 	$("#stop-training-button").prop('disabled', false);
@@ -214,7 +222,7 @@ function stop_AT() {
 	$("#kat-progress-bar").css('width', '0%');
 
 	if (g_settings['is_narrator']) {
-		say_this('This concludes the session');
+		g_settings['narration_audio_objects']['end'].play();
 	}
 
 	$("#show-settings-button").prop('disabled', false);
