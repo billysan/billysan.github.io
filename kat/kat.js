@@ -5,7 +5,7 @@ SOUNDS = [
 	[ 'waves' , 'songs/waves.mp3', 'tts/waves.mp3', 0.5 ],
 	[ 'bells' , 'songs/bells.mp3', 'tts/bells.mp3', 0.3 ],
 	[ 'birdsong' , 'songs/birdsong.mp3', 'tts/birdsong.mp3', 0.5 ],
-	[ 'bubbles' , 'songs/bubbles.mp3', 'tts/bubbles.mp3', 0.4 ],
+	[ 'bubbles' , 'songs/bubbles.mp3', 'tts/bubbles.mp3', 0.3 ],
 	[ 'chant' , 'songs/chant.mp3', 'tts/chant.mp3', 0.4 ],
 	[ 'childplay' , 'songs/childplay.mp3', 'tts/childplay.mp3', 0.4 ],
 	[ 'drone' , 'songs/drone.mp3', 'tts/drone.mp3', 0.6 ],
@@ -18,7 +18,7 @@ SOUNDS = [
 	[ 'typing' , 'songs/typing.mp3', 'tts/typing.mp3', 0.9 ],
 	[ 'sheep' , 'songs/sheep.mp3', 'tts/sheep.mp3', 0.4 ],
 	[ 'traffic' , 'songs/traffic.mp3', 'tts/traffic.mp3', 0.5 ],
-	[ 'harp' , 'songs/harp.mp3', 'tts/harp.mp3', 0.7 ],
+	[ 'harp' , 'songs/harp.mp3', 'tts/harp.mp3', 0.8 ],
 ];
 
 
@@ -187,7 +187,7 @@ function start_AT() {
 		g_settings['narration_audio_objects']['start'].play();
 	}
 
-	setTimeout(change_attention_focus, 3000);
+	setTimeout(change_attention_focus, 5000);
 
 	$("#show-settings-button").prop('disabled', true);
 	$("#stop-training-button").prop('disabled', false);
