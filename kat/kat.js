@@ -163,6 +163,8 @@ function init_AT() {
 		g_settings['audio_objects'][sound_index] = audio_obj;
 		g_settings['tts_objects'][sound_index] = tts_obj;
 	}
+
+	$("#kat-play-icon").removeClass("fa-play").addClass("fa-spinner").addClass("fa-spin");
 }
 
 
@@ -194,6 +196,8 @@ function start_AT() {
 	// Disable start, enable stop
 	$("#show-settings-button").prop('disabled', true);
 	$("#stop-training-button").prop('disabled', false);
+
+	$("#kat-play-icon").removeClass("fa-spinner").removeClass("fa-spin").addClass("fa-play");
 
 	g_is_running = true;
 }
