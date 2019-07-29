@@ -29,7 +29,8 @@ var g_settings = {
 	'minutes_len' : 0,
 	'is_narrator' : false,
 	'currently_playing' : [ ],
-	'audio_objects' : [ ],
+	'loaded_audio_objects' : 0,
+	'audio_objects' : { },
 	'tts_objects' : { },
 	'focus_interval_object' : null,
 	'current_focus' : null,
@@ -43,6 +44,18 @@ var g_settings = {
 }
 
 
+function loaded_audio() {
+
+	g_settings['loaded_audio_objects'] += 1;
+
+	// * 2: one audio, one tts
+	if (g_settings['loaded_audio_objects'] == (g_settings['sounds_len'] * 2)){
+		console.log("ready!");
+		start_AT();
+	}
+}
+
+
 function progress_bar() {
 
 	if (g_is_running) {
@@ -53,39 +66,6 @@ function progress_bar() {
 		console.log("Stopping progress bar");
 		clearInterval(g_settings['progress_interval_object']);
 	}
-}
-
-
-function say_this(word) {
-
-	console.log("Saying: " + word);
-
-	// get all voices that browser offers
-	var available_voices = window.speechSynthesis.getVoices();
-
-	// this will hold an english voice
-	var english_voice = '';
-
-	// find voice by language locale "en-US"
-	// if not then select the first voice
-	for(var i=0; i<available_voices.length; i++) {
-		if(available_voices[i].lang === 'en-US') {
-			english_voice = available_voices[i];
-			break;
-		}
-	}
-	if(english_voice === '')
-		english_voice = available_voices[0];
-
-	// new SpeechSynthesisUtterance object
-	var utter = new SpeechSynthesisUtterance();
-	utter.rate = 0.9;
-	utter.pitch = 0.3;
-	utter.text = word;
-	utter.voice = english_voice;
-
-	// speak
-	window.speechSynthesis.speak(utter);
 }
 
 
@@ -114,42 +94,22 @@ function change_attention_focus() {
 
 
 function play_this(sound_index) {
-
-	song_name = SOUNDS[sound_index][0]; 
-	song_url = SOUNDS[sound_index][1];
-	song_tts_url = SOUNDS[sound_index][2];
-	song_volume_factor = SOUNDS[sound_index][3];
-
-	console.log("Playing " + song_name);
-
-	var audio_obj = new Audio(song_url);
-
-	audio_obj.loop = true;
-	audio_obj.volume = song_volume_factor;
-	audio_obj.play();
-
-	console.log("Downloading " + song_tts_url);
-	var tts_obj = new Audio(song_tts_url);
-
-	g_settings['audio_objects'].push(audio_obj);
-	g_settings['tts_objects'][sound_index] = tts_obj;
-
-	console.log("Done with " + song_name);
+	g_settings['audio_objects'][sound_index.toString()].play();
 }
 
 
-function start_AT() {
+function init_AT() {
 
-	if (g_is_running) { 
+	if (g_is_running) {
+		console.log("Already running...");
 		return;
 	}
 
-	console.log("Starting AT...");
+	console.log("Initialising AT...");
 
-	g_is_running = true;
-	
 	g_settings['currently_playing'] = [ ];
-	g_settings['audio_objects'] = [ ];
+	g_settings['loaded_audio_objects'] = 0;
+	g_settings['audio_objects'] = { };
 	g_settings['tts_objects'] = { };
 	g_settings['current_focus'] = null;
 	g_settings['focus_interval_object'] = null;
@@ -157,6 +117,7 @@ function start_AT() {
 	g_settings['progress_interval_object'] = null;
 	g_settings['stop_AT_timeout_object'] = null;
 
+	// Select random files to play
 	i = 0;
 
 	while (i < g_settings['sounds_len']) {
@@ -173,60 +134,113 @@ function start_AT() {
 		}
 	}
 
+	// Preload relevant audio
+	for (i = 0; i < g_settings['sounds_len']; ++i) {
+
+		sound_index = g_settings['currently_playing'][i];
+
+		song_name = SOUNDS[sound_index][0];
+		song_url = SOUNDS[sound_index][1];
+		song_tts_url = SOUNDS[sound_index][2];
+		song_volume_factor = SOUNDS[sound_index][3];
+
+		console.log("Preloading sound: " + SOUNDS[sound_index][0]);
+
+		// preload song
+		var audio_obj = new Audio();
+
+		audio_obj.src = song_url;
+		audio_obj.loop = true;
+		audio_obj.volume = song_volume_factor;
+		audio_obj.addEventListener('canplaythrough', loaded_audio, false);
+
+		// preload its relevant tts
+		var tts_obj = new Audio();
+
+		tts_obj.src = song_tts_url;
+		tts_obj.addEventListener('canplaythrough', loaded_audio, false);
+
+		g_settings['audio_objects'][sound_index] = audio_obj;
+		g_settings['tts_objects'][sound_index] = tts_obj;
+	}
+}
+
+
+function start_AT() {
+
+	console.log("Starting AT");
+
+	// Play all songs
 	for (i = 0; i < g_settings['sounds_len']; ++i) {
 		setTimeout(play_this, 0, g_settings['currently_playing'][i]);
 	}
 
+	// Change focus every 21 secs
 	g_settings['focus_interval_object'] = setInterval(change_attention_focus, 21078);
 
+	// Set the stopping timer
 	g_settings['stop_AT_timeout_object'] = setTimeout(stop_AT, g_settings['minutes_len'] * 1000 * 60);
 
+	// Progress bar every second
 	g_settings['progress_interval_object'] = setInterval(progress_bar, 1000);
 
 	if (g_settings['is_narrator']) {
 		g_settings['narration_audio_objects']['start'].play();
 	}
 
+	// Initial focus change after about 5 seconds into session
 	setTimeout(change_attention_focus, 5000);
 
+	// Disable start, enable stop
 	$("#show-settings-button").prop('disabled', true);
 	$("#stop-training-button").prop('disabled', false);
+
+	g_is_running = true;
 }
 
 
-function stop_AT() {
+function stop_AT(user_clicked = false) {
 
 	if (!g_is_running) {
+		console.log("Not running, not stopping...");
 		return;
 	}
 
 	console.log("Stopping AT...");
 
+	// Clear stop object
 	if (g_settings['stop_AT_timeout_object']) {
 		clearTimeout(g_settings['stop_AT_timeout_object']);
 	}
 
-	for (i = 0; i < g_settings['audio_objects'].length; ++i) {
+	// Stop all sounds
+	for (i = 0; i < g_settings['sounds_len']; ++i) {
 
-		console.log("Stopping " + SOUNDS[g_settings['currently_playing'][i]][0]);
+		sound_index = g_settings['currently_playing'][i]
 
-		g_settings['audio_objects'][i].pause();
+		console.log("Stopping " + SOUNDS[sound_index][0]);
+
+		g_settings['audio_objects'][sound_index.toString()].pause();
 	}
 
+	// Stop focus change
 	if (g_settings['focus_interval_object']) {
 		clearInterval(g_settings['focus_interval_object']);
 	}
 
+	// Clear focus entry
 	$("#focus_entry").html('&nbsp;');
 
+	// Clear progress
 	$("#kat-progress-bar").css('width', '0%');
 
-	if (g_settings['is_narrator']) {
+	// Say the session is over
+	if (g_settings['is_narrator'] && !user_clicked) {
 		g_settings['narration_audio_objects']['end'].play();
 	}
 
+	// Enable start, disable stop
 	$("#show-settings-button").prop('disabled', false);
-
 	$("#stop-training-button").prop('disabled', true);
 
 	g_is_running = false;
@@ -241,16 +255,16 @@ $("#settings-start-button").click(function() {
 
 	$("#settings-modal").modal('hide');
 
-	start_AT();
+	init_AT();
 });
 
 
 $("#stop-training-button").click(function() {
-	stop_AT();
+	stop_AT(true);
 });
 
 
 $(document).ready(function() { 
 	$("#stop-training-button").prop('disabled', true);
-	console.log("Ready");
+	console.log("kat is... ready?");
 });
