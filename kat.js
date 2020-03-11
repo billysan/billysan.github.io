@@ -43,11 +43,6 @@ var g_settings = {
 	},
 }
 
-function get_random_int(min, max) {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-}
 
 function loaded_audio() {
 
@@ -182,8 +177,8 @@ function start_AT() {
 		setTimeout(play_this, 0, g_settings['currently_playing'][i]);
 	}
 
-	// Change focus every 14-35 secs
-	g_settings['focus_interval_object'] = setInterval(change_attention_focus, get_random_int(14078, 3512));
+	// Change focus every 21078 ms
+	g_settings['focus_interval_object'] = setInterval(change_attention_focus, 21078);
 
 	// Set the stopping timer
 	g_settings['stop_AT_timeout_object'] = setTimeout(stop_AT, g_settings['minutes_len'] * 1000 * 60);
