@@ -203,7 +203,7 @@ function start_AT() {
 }
 
 
-fuction stop_sounds() {
+function stop_sounds() {
 
 	for (i = 0; i < g_settings['sounds_len']; ++i) {
 
