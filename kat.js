@@ -203,6 +203,18 @@ function start_AT() {
 }
 
 
+fuction stop_sounds() {
+
+	for (i = 0; i < g_settings['sounds_len']; ++i) {
+
+		sound_index = g_settings['currently_playing'][i]
+
+		console.log("Stopping " + SOUNDS[sound_index][0]);
+
+		g_settings['audio_objects'][sound_index.toString()].pause();
+	}
+}
+
 function stop_AT(user_clicked = false) {
 
 	if (!g_is_running) {
@@ -218,14 +230,7 @@ function stop_AT(user_clicked = false) {
 	}
 
 	// Stop all sounds
-	for (i = 0; i < g_settings['sounds_len']; ++i) {
-
-		sound_index = g_settings['currently_playing'][i]
-
-		console.log("Stopping " + SOUNDS[sound_index][0]);
-
-		g_settings['audio_objects'][sound_index.toString()].pause();
-	}
+	setTimeout(stop_sounds, 5000);
 
 	// Stop focus change
 	if (g_settings['focus_interval_object']) {
