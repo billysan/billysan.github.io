@@ -25,7 +25,8 @@ function play_random() {
 	square_obj.src = "/af/n/" + rand_square + ".mp3";
 
 	limb_obj.play();
-	square_obj.play();
+
+	setTimeout(function() { square_obj.play(); }, 2000);
 }
 
 
@@ -162,5 +163,5 @@ $("#stop-training-button").click(function() {
 
 $(document).ready(function() { 
 	$("#stop-training-button").prop('disabled', true);
-	console.log("af is... ready?");
+	console.log("af is... ready? 2");
 });
