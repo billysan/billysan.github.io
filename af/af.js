@@ -34,12 +34,7 @@ var g_is_running = false;
 var g_settings = {
 	'minutes_len' : 0,
 	'is_narrator' : false,
-	'currently_playing' : [ ],
-	'loaded_audio_objects' : 0,
-	'n_objects' : { },
-	'limb_objects' : { },
 	'focus_interval_object' : null,
-	'current_focus' : null,
 	'current_progress' : 0,
 	'progress_interval_object' : null,
 	'stop_AF_timeout_object' : null,
@@ -72,15 +67,10 @@ function init_AF() {
 
 	console.log("Initialising AF...");
 
-	g_settings['currently_playing'] = [ ];
-	g_settings['loaded_audio_objects'] = 0;
-	g_settings['audio_objects'] = { };
-	g_settings['tts_objects'] = { };
-	g_settings['current_focus'] = null;
 	g_settings['focus_interval_object'] = null;
 	g_settings['current_progress'] = 0;
 	g_settings['progress_interval_object'] = null;
-	g_settings['stop_AT_timeout_object'] = null;
+	g_settings['stop_AF_timeout_object'] = null;
 
 	$("#af-play-icon").removeClass("fa-play").addClass("fa-spinner").addClass("fa-spin");
 }
@@ -94,7 +84,7 @@ function start_AF() {
 	g_settings['focus_interval_object'] = setInterval(play_random, 12700);
 
 	// Set the stopping timer
-	g_settings['stop_AF_timeout_object'] = setTimeout(stop_AT, g_settings['minutes_len'] * 1000 * 60);
+	g_settings['stop_AF_timeout_object'] = setTimeout(stop_AF, g_settings['minutes_len'] * 1000 * 60);
 
 	// Progress bar every second
 	g_settings['progress_interval_object'] = setInterval(progress_bar, 1000);
