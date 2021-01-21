@@ -161,6 +161,7 @@ $("#settings-start-button").click(function() {
 	$("#settings-modal").modal('hide');
 
 	init_AF();
+	start_AF();
 });
 
 
