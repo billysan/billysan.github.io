@@ -1,6 +1,4 @@
 
-START = "/af/n/start.mp3";
-END = "/af/n/end.mp3";
 
 LIMBS = [ 
 	'/af/limbs/leftleg.mp3',
@@ -13,7 +11,7 @@ LIMBS = [
 function play_random() {
 
 	var rand_limb = Math.floor(Math.random() * 4);
-	var rand_square = Math.floor(Math.random() * 16);
+	var rand_square = (Math.floor(Math.random() * 20) + 1);
 
 	console.log(rand_limb);
 	console.log(rand_square);
