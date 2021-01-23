@@ -24,8 +24,8 @@ var COLORS = [
 ]
 
 
-//var root = "/af";
-var root = "C:/Users/billy/Projects/2/billysan.github.io/af"
+var root = "/af";
+//var root = "C:/Users/billy/Projects/2/billysan.github.io/af"
 
 function play_random() {
 
