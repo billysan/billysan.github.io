@@ -1,0 +1,85 @@
+.af-grid {
+	width: 60vh;
+	height: 60vh;
+	display: flex;
+	flex-direction: column;
+}
+
+.af-grid .row {
+	height: 25%;
+	display: flex;
+	flex-direction: row;
+}
+
+.af-grid .cell {
+	width: 20%;
+	border: 4px solid #555;
+	background-color: black;
+	background-size:80%;
+	background-position: center;
+	background-repeat:no-repeat;
+	transition: 0.5s all;
+}
+
+#pink-bird { background-image: url('icons/pink-bird.png'); }
+#green-bird { background-image: url('icons/green-bird.png'); }
+#yellow-bird { background-image: url('icons/yellow-bird.png'); }
+#blue-bird { background-image: url('icons/blue-bird.png'); }
+#red-bird { background-image: url('icons/red-bird.png'); }
+
+#pink-sun { background-image: url('icons/pink-sun.png'); }
+#green-sun { background-image: url('icons/green-sun.png'); }
+#yellow-sun { background-image: url('icons/yellow-sun.png'); }
+#blue-sun { background-image: url('icons/blue-sun.png'); }
+#red-sun { background-image: url('icons/red-sun.png'); }
+
+#pink-dog { background-image: url('icons/pink-dog.png'); }
+#green-dog { background-image: url('icons/green-dog.png'); }
+#yellow-dog { background-image: url('icons/yellow-dog.png'); }
+#blue-dog { background-image: url('icons/blue-dog.png'); }
+#red-dog { background-image: url('icons/red-dog.png'); }
+
+#pink-wave { background-image: url('icons/pink-wave.png'); }
+#green-wave { background-image: url('icons/green-wave.png'); }
+#yellow-wave { background-image: url('icons/yellow-wave.png'); }
+#blue-wave { background-image: url('icons/blue-wave.png'); }
+#red-wave { background-image: url('icons/red-wave.png'); }
+
+
+/*
+.af-grid .row:nth-child(4) .cell {
+	background-image:url('icons/wave.jpg');
+}
+
+.af-grid .row:nth-child(3) .cell {
+	background-image:url('icons/dog.jpg');
+}
+
+.af-grid .row:nth-child(2) .cell {
+	background-image:url('icons/bird.png');
+}
+
+.af-grid .row:nth-child(1) .cell {
+	background-image:url('icons/sun.png');
+}
+
+.af-grid .cell:hover,
+.af-grid .cell.active {
+}
+
+.af-grid .rightleg {
+	border-color: red;
+}
+
+.af-grid .leftleg {
+	border-color: blue;
+}
+
+.af-grid .righthand {
+	border-color: yellow;
+}
+
+.af-grid .lefthand {
+	border-color: #09ff09;
+}
+*/

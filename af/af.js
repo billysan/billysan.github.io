@@ -1,32 +1,82 @@
 
 
-LIMBS = [ 
-	'/af/limbs/leftleg.mp3',
-	'/af/limbs/rightleg.mp3',
-	'/af/limbs/lefthand.mp3',
-	'/af/limbs/righthand.mp3'
+var LIMBS = [ 
+	'leftleg',
+	'rightleg',
+	'lefthand',
+	'righthand'
 ];
 
 
+var ICONS = [ 
+	'sun',
+	'bird',
+	'dog',
+	'wave'
+];
+
+var COLORS = [
+	'yellow',
+	'blue',
+	'green',
+	'red',
+	'pink'
+]
+
+
+//var root = "/af";
+var root = "C:/Users/billy/Projects/2/billysan.github.io/af"
+
 function play_random() {
 
-	var rand_limb = Math.floor(Math.random() * 4);
-	var rand_square = (Math.floor(Math.random() * 20) + 1);
+	horizontal = Math.floor(Math.random() * 5) + 1,
+	vertical = Math.floor(Math.random() * 4) + 1;
 
-	console.log(rand_limb);
-	console.log(rand_square);
+	limb = LIMBS[Math.floor(Math.random() * 4)],
+	color = COLORS[horizontal - 1];
+	icon = ICONS[vertical - 1];
 
-	var limb_obj = new Audio();
-	limb_obj.src = LIMBS[rand_limb];
-
-	var square_obj = new Audio();
-	square_obj.src = "/af/n/" + rand_square + ".mp3";
-
-	limb_obj.play();
-
-	setTimeout(function() { square_obj.play(); }, 2000);
+	playLimb(limb);
+	setTimeout(function(){ playColor(color); }, 1750);
+	//activateCell(vertical,horizontal,limb);
+	setTimeout(function(){ playIcon(icon); }, 2750);
 }
 
+/*
+function activateCell(vertical,horizontal,limb){
+	$(".af-grid ." + limb).removeClass(limb);
+	$(".af-grid .active").removeClass('active');
+
+	$(".af-grid .row:nth-child("+ vertical + ") .cell:nth-child("+ horizontal+ ")").addClass('active').addClass(limb);
+}
+*/
+
+function playColor(color) {
+	var color_obj = new Audio();
+	color_obj.src = root + "/colors/" + color + ".mp3";
+	color_obj.play();
+}
+
+function playIcon(icon){
+	var icon_obj = new Audio();
+	icon_obj.src = root + "/shapes/" + icon + ".mp3";
+	icon_obj.play();
+}
+
+
+function playLimb(limb){
+	var limb_obj = new Audio();
+	limb_obj.src = root + "/limbs/" + limb + ".mp3";
+	limb_obj.play();
+}
+
+/*
+function playNum(num){
+	var num_obj = new Audio();
+	num_obj.src = root + "/n/" + num + ".mp3";
+	num_obj.play();
+}
+*/
 
 var g_is_running = false;
 
@@ -38,8 +88,8 @@ var g_settings = {
 	'progress_interval_object' : null,
 	'stop_AF_timeout_object' : null,
 	'narration_audio_objects' : {
-		'start' : new Audio("/af/n/start.mp3"),
-		'end' : new Audio("/af/n/end.mp3"),
+		'start' : new Audio(root + "/n/start.mp3"),
+		'end' : new Audio(root + "/n/end.mp3"),
 	},
 }
 
@@ -78,9 +128,9 @@ function init_AF() {
 function start_AF() {
 
 	console.log("Starting AF");
-
+	var randomInterval = 8000;
 	// Change focus every 12700 ms
-	g_settings['focus_interval_object'] = setInterval(play_random, 12700);
+	g_settings['focus_interval_object'] = setInterval(play_random, randomInterval);
 
 	// Set the stopping timer
 	g_settings['stop_AF_timeout_object'] = setTimeout(stop_AF, g_settings['minutes_len'] * 1000 * 60);
@@ -88,12 +138,7 @@ function start_AF() {
 	// Progress bar every second
 	g_settings['progress_interval_object'] = setInterval(progress_bar, 1000);
 
-	if (g_settings['is_narrator']) {
-		g_settings['narration_audio_objects']['start'].play();
-	}
-
-	// Initial focus change after about 5 seconds into session
-	setTimeout(play_random, 5000);
+	g_settings['narration_audio_objects']['start'].play();
 
 	// Disable start, enable stop
 	$("#show-settings-button").prop('disabled', true);
@@ -131,7 +176,7 @@ function stop_AF(user_clicked = false) {
 	$("#af-progress-bar").css('width', '0%');
 
 	// Say the session is over
-	if (g_settings['is_narrator'] && !user_clicked) {
+	if (!user_clicked) {
 		g_settings['narration_audio_objects']['end'].play();
 	}
 
