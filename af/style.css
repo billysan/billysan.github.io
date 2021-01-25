@@ -21,11 +21,11 @@
 	transition: 0.5s all;
 }
 
-#pink-bird { background-image: url('icons/pink-bird.png'); }
-#green-bird { background-image: url('icons/green-bird.png'); }
-#yellow-bird { background-image: url('icons/yellow-bird.png'); }
-#blue-bird { background-image: url('icons/blue-bird.png'); }
-#red-bird { background-image: url('icons/red-bird.png'); }
+#pink-berb { background-image: url('icons/pink-berb.png'); }
+#green-berb { background-image: url('icons/green-berb.png'); }
+#yellow-berb { background-image: url('icons/yellow-berb.png'); }
+#blue-berb { background-image: url('icons/blue-berb.png'); }
+#red-berb { background-image: url('icons/red-berb.png'); }
 
 #pink-sun { background-image: url('icons/pink-sun.png'); }
 #green-sun { background-image: url('icons/green-sun.png'); }
@@ -33,11 +33,11 @@
 #blue-sun { background-image: url('icons/blue-sun.png'); }
 #red-sun { background-image: url('icons/red-sun.png'); }
 
-#pink-dog { background-image: url('icons/pink-dog.png'); }
-#green-dog { background-image: url('icons/green-dog.png'); }
-#yellow-dog { background-image: url('icons/yellow-dog.png'); }
-#blue-dog { background-image: url('icons/blue-dog.png'); }
-#red-dog { background-image: url('icons/red-dog.png'); }
+#pink-boat { background-image: url('icons/pink-boat.png'); }
+#green-boat { background-image: url('icons/green-boat.png'); }
+#yellow-boat { background-image: url('icons/yellow-boat.png'); }
+#blue-boat { background-image: url('icons/blue-boat.png'); }
+#red-boat { background-image: url('icons/red-boat.png'); }
 
 #pink-wave { background-image: url('icons/pink-wave.png'); }
 #green-wave { background-image: url('icons/green-wave.png'); }
@@ -52,11 +52,11 @@
 }
 
 .af-grid .row:nth-child(3) .cell {
-	background-image:url('icons/dog.jpg');
+	background-image:url('icons/boat.jpg');
 }
 
 .af-grid .row:nth-child(2) .cell {
-	background-image:url('icons/bird.png');
+	background-image:url('icons/berb.png');
 }
 
 .af-grid .row:nth-child(1) .cell {
