@@ -29,17 +29,21 @@ var root = "/af";
 
 function play_random() {
 
-	horizontal = Math.floor(Math.random() * 5) + 1,
-	vertical = Math.floor(Math.random() * 4) + 1;
+	//horizontal = Math.floor(Math.random() * 5) + 1,
+	//vertical = Math.floor(Math.random() * 4) + 1;
 
 	limb = LIMBS[Math.floor(Math.random() * 4)],
-	color = COLORS[horizontal - 1];
-	icon = ICONS[vertical - 1];
+
+	number = Math.floor(Math.random() * 20) + 1;
+
+	//color = COLORS[horizontal - 1];
+	//icon = ICONS[vertical - 1];
 
 	playLimb(limb);
-	setTimeout(function(){ playColor(color); }, 1750);
+	setTimeout(function(){ playNum(number); }, 1750);
+
 	//activateCell(vertical,horizontal,limb);
-	setTimeout(function(){ playIcon(icon); }, 2750);
+	//setTimeout(function(){ playIcon(icon); }, 2750);
 }
 
 /*
@@ -70,13 +74,13 @@ function playLimb(limb){
 	limb_obj.play();
 }
 
-/*
+
 function playNum(num){
 	var num_obj = new Audio();
 	num_obj.src = root + "/n/" + num + ".mp3";
 	num_obj.play();
 }
-*/
+
 
 var g_is_running = false;
 
