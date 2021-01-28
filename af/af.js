@@ -24,8 +24,8 @@ var COLORS = [
 ]
 
 
-var root = "/af";
-//var root = "C:/Users/billy/Projects/billysan.github.io/af"
+//var root = "/af";
+var root = "C:/Users/billy/Projects/billysan.github.io/af"
 
 function play_random() {
 
@@ -44,6 +44,8 @@ function play_random() {
 
 	//activateCell(vertical,horizontal,limb);
 	//setTimeout(function(){ playIcon(icon); }, 2750);
+
+	$("#af_task").text(limb + ' to ' + number);
 }
 
 /*
