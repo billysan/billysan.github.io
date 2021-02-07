@@ -8,7 +8,7 @@ SOUNDS = [
 	[ 'bubbles 🥤' , 'songs/bubbles.mp3', 'tts/bubbles.mp3', 0.3 ],
 	[ 'chant 🕉️' , 'songs/chant.mp3', 'tts/chant.mp3', 0.4 ],
 	[ 'childplay 🧒' , 'songs/childplay.mp3', 'tts/childplay.mp3', 0.4 ],
-	[ 'drone ✈️' , 'songs/drone.mp3', 'tts/drone.mp3', 0.6 ],
+	[ 'drone ✈️' , 'songs/drone.mp3', 'tts/drone.mp3', 0.8 ],
 	[ 'guitar 🎸' , 'songs/guitar.mp3', 'tts/guitar.mp3', 0.5 ],
 	[ 'talkings 🗯️' , 'songs/talkings.mp3', 'tts/talkings.mp3', 0.5] ,
 	[ 'violin 🎻' , 'songs/violin.mp3', 'tts/violin.mp3', 0.5 ],
@@ -22,16 +22,31 @@ SOUNDS = [
 ];
 
 
+HT = [
+	['ht/chewing.mp3', 1],
+	['ht/bag.mp3', 0.4],
+	['ht/bear.mp3', 0.8],
+	['ht/grill.mp3', 0.7],
+	['ht/itchy.mp3', 1],
+	['ht/kalkar.mp3', 0.7],
+	['ht/keys.mp3', 0.8],
+	['ht/wall.mp3', 0.9],
+	['ht/yuk.mp3', 0.7],
+]
+
+
 var g_is_running = false;
 
 var g_settings = {
 	'sounds_len' : 0,
 	'minutes_len' : 0,
 	'is_narrator' : false,
+	'is_ht' : false,
 	'currently_playing' : [ ],
 	'loaded_audio_objects' : 0,
 	'audio_objects' : { },
 	'tts_objects' : { },
+	'ht_object' : null,
 	'focus_interval_object' : null,
 	'current_focus' : null,
 	'current_progress' : 0,
@@ -49,7 +64,13 @@ function loaded_audio() {
 	g_settings['loaded_audio_objects'] += 1;
 
 	// * 2: one audio, one tts
-	if (g_settings['loaded_audio_objects'] == (g_settings['sounds_len'] * 2)){
+	objects_ready = (g_settings['sounds_len'] * 2);
+
+	if (g_settings['is_ht']) {
+		objects_ready += 1;
+	}
+
+	if (g_settings['loaded_audio_objects'] == objects_ready) {
 		console.log("ready!");
 		start_AT();
 	}
@@ -164,6 +185,28 @@ function init_AT() {
 		g_settings['tts_objects'][sound_index] = tts_obj;
 	}
 
+	
+	if (g_settings['is_ht']) {
+
+		// Select a single HT track
+		console.log("HT is on");
+	
+		random_ht_pos = 7; //Math.floor(Math.random() * HT.length);
+
+		console.log("Selected: " + HT[random_ht_pos][0]);
+
+		// preload song
+		var ht_obj = new Audio();
+
+		ht_obj.src = HT[random_ht_pos][0];
+		ht_obj.volume = HT[random_ht_pos][1];
+		ht_obj.loop = true;
+		ht_obj.addEventListener('canplaythrough', loaded_audio, false);
+	
+		g_settings['ht_object'] = ht_obj;
+	}
+
+
 	$("#kat-play-icon").removeClass("fa-play").addClass("fa-spinner").addClass("fa-spin");
 }
 
@@ -190,6 +233,10 @@ function start_AT() {
 		g_settings['narration_audio_objects']['start'].play();
 	}
 
+	if (g_settings['is_ht']) {
+		g_settings['ht_object'].play();
+	}
+
 	// Initial focus change after about 5 seconds into session
 	setTimeout(change_attention_focus, 5000);
 
@@ -213,7 +260,12 @@ function stop_sounds() {
 
 		g_settings['audio_objects'][sound_index.toString()].pause();
 	}
+
+	if (g_settings['is_ht']) {
+		g_settings['ht_object'].pause();
+	}
 }
+
 
 function stop_AT(user_clicked = false) {
 
@@ -261,6 +313,10 @@ $("#settings-start-button").click(function() {
 	g_settings['sounds_len'] = parseInt($("#sounds-len-btn-group label.active input").val());
 	g_settings['minutes_len'] = parseInt($("#minutes-len-btn-group label.active input").val());
 	g_settings['is_narrator'] = $("#narrate-checkbox").is(':checked');
+	g_settings['is_ht'] = $("#ht-checkbox").is(':checked');
+
+	console.log(g_settings['is_narrator']);
+	console.log(g_settings['is_ht']);
 
 	$("#settings-modal").modal('hide');
 
