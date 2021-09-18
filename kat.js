@@ -24,7 +24,7 @@ SOUNDS = [
 
 HT = [
 	['ht/chewing.mp3', 1],
-	['ht/bag.mp3', 0.4],
+	['ht/bag.mp3', 0.2],
 	['ht/bear.mp3', 0.8],
 	['ht/grill.mp3', 0.7],
 	['ht/itchy.mp3', 1],
