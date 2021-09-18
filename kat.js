@@ -27,7 +27,7 @@ HT = [
 	['ht/bag.mp3', 0.2],
 	['ht/bear.mp3', 0.8],
 	['ht/grill.mp3', 0.7],
-	['ht/itchy.mp3', 1],
+	['ht/itchy.mp3', 0.7],
 	['ht/kalkar.mp3', 0.7],
 	['ht/keys.mp3', 0.8],
 	['ht/wall.mp3', 0.7],
