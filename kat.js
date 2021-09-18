@@ -31,7 +31,7 @@ HT = [
 	['ht/kalkar.mp3', 0.7],
 	['ht/keys.mp3', 0.8],
 	['ht/wall.mp3', 0.7],
-	['ht/yuk.mp3', 0.7],
+	['ht/yuk.mp3', 0.5],
 ]
 
 
