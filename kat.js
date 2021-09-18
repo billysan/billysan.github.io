@@ -191,7 +191,7 @@ function init_AT() {
 		// Select a single HT track
 		console.log("HT is on");
 	
-		random_ht_pos = 7; //Math.floor(Math.random() * HT.length);
+		random_ht_pos = Math.floor(Math.random() * HT.length);
 
 		console.log("Selected: " + HT[random_ht_pos][0]);
 
@@ -314,9 +314,6 @@ $("#settings-start-button").click(function() {
 	g_settings['minutes_len'] = parseInt($("#minutes-len-btn-group label.active input").val());
 	g_settings['is_narrator'] = $("#narrate-checkbox").is(':checked');
 	g_settings['is_ht'] = $("#ht-checkbox").is(':checked');
-
-	console.log(g_settings['is_narrator']);
-	console.log(g_settings['is_ht']);
 
 	$("#settings-modal").modal('hide');
 
